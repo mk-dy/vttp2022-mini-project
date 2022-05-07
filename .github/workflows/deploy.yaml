@@ -17,7 +17,3 @@ jobs:
         heroku_app_name: "vttp2022-miniproject-recipe" 
         heroku_email: ${{secrets.email}}
         branch: ${{github.ref_name}}
-      env:
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-        EDAMAM_API_ID: ${{ secrets.EDAMAM_API_ID }}
-        EDAMAM_API_KEY: ${{ secrets.EDAMAM_API_KEY }}
