@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="main.css">
+
+</head>
+<body>
+    <header>
+        <div class="topnav">
+
+            <a href="/">
+                <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+            </a>
+            
+            <nav>
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="body">
+        <h1>Matching results for "<span data-th-text="${query}"></span>"</h1>
+        <div class="recipes">
+            <div class="container" data-th-each="recipe : ${recipeList}">
+                
+                <!-- <form action="/search/{recipeId}(recipeId=${recipe.recipeId})" method="get">
+                    <input type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
+                </form> -->
+                <a href="/search/{recipeId}(recipeId=${recipe.recipeId})">
+                    <img data-th-src="${recipe.imageLink}" width="200px" alt="">
+                </a>
+                <div data-th-text="${recipe.recipeName}"></div>
+                <br>
+            </div>
+            
+            <!-- <div class="container" data-th-each="recipe : ${recipeList}">
+                <img data-th-src="${recipe.imageLink}">
+                <div data-th-text="${recipe.recipeName}"></div>
+                <div data-th-text="${recipe.recipeId}" hidden></div>
+                <br>
+            </div> -->
+    
+            <!-- <table>
+                <tr data-th-each="recipe : ${recipeList}">
+                    <td><img data-th-src="${recipe.imageLink}" alt=""></td>
+                    <td data-th-text="${recipe.recipeName}"></td>
+                    <td data-th-text="${recipe.recipeId}"></td>
+                </tr>
+            </table> -->
+
+            <!-- <table>
+                <tr>
+                    <td data-th-each="recipe : ${recipeList}">
+                        <p><img data-th-src="${recipe.imageLink}" alt=""></p>
+                        <p data-th-text="${recipe.recipeName}"></p>
+                        <p data-th-text="${recipe.recipeId}" hidden></p>
+                    </td>
+                </tr>
+            </table> -->
+
+        </div>
+    </div>
+    
+    
+</body>
+</html>

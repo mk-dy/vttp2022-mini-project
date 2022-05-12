@@ -16,6 +16,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import sg.edu.nus.iss.vttp2022_project.model.Recipe;
 
 @Service
 public class RecipeService {
@@ -28,10 +29,12 @@ public class RecipeService {
 
     private String urlAccessPoint = "https://api.edamam.com/api/recipes/v2";
 
-    public List<String> getRecipe(String query) {
+    public List<Recipe> getRecipe(String query) {
 
-        List<String> recipeList = new LinkedList<>();
+        List<Recipe> recipeList = new LinkedList<>();
         
+        System.out.println(query);
+
         String url = UriComponentsBuilder.fromUriString(urlAccessPoint)
             .queryParam("app_key", apiKey)
             .queryParam("app_id", apiId)
@@ -58,26 +61,36 @@ public class RecipeService {
         JsonReader reader = Json.createReader(new StringReader(resp.getBody()));
         JsonObject obj = reader.readObject();
         JsonArray jArr = obj.getJsonArray("hits");
+
         for (int i = 0; i < jArr.size(); i++) {
+            Recipe fRecipe= new Recipe();
             JsonObject rec = jArr.getJsonObject(i);
             JsonObject recipeInfo = rec.getJsonObject("recipe");
+
+            String recipeId = recipeInfo.getString("uri");
+            recipeId = recipeId.replace("http://www.edamam.com/ontologies/edamam.owl#recipe_", "");
             String recipeName = recipeInfo.getString("label");
-            String foodImage = recipeInfo.getJsonObject("image")
-                    .getJsonObject("LARGE")
-                    .getString("url");
+            String foodImage = recipeInfo.getJsonObject("images")
+                                .getJsonObject("REGULAR")
+                                .getString("url");
             String recipeSource = recipeInfo.getString("source");
             String recipeSourceUrl = recipeInfo.getString("url");
-            String edamamUrl = recipeInfo.getString("shareAs");
-
-            // incomplete, model to be updated
-            // items to be added to list
+            Integer serving = recipeInfo.getInt("yield");
+            Integer calories = recipeInfo.getInt("calories");
+            
+            fRecipe.setRecipeId(recipeId);
+            fRecipe.setRecipeName(recipeName);
+            fRecipe.setImageLink(foodImage);
+            fRecipe.setOrgSrc(recipeSource);
+            fRecipe.setOrgSrcLink(recipeSourceUrl);
+            fRecipe.setServing(serving);
+            fRecipe.setCalories(calories);
+            recipeList.add(fRecipe);
             
         }
 
         return recipeList;
-
-        
-
-
     }
+
+    
 }

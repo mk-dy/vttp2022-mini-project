@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <div class="topnav">
+
+            <a href="/">
+                <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+            </a>
+            
+            <nav>
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <br clear="all" />
+    <div class="form">
+        <form action="/auth" method="post">
+            
+            <div class="input">
+                <label for="username">Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="input">
+                <label for="password">Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <div class="input">
+                <button type="submit">Login</button>
+            </div>
+            <div class="input">
+                <p>Don't have an account? <a href="/signup">Sign up</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

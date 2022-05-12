@@ -31,7 +31,28 @@ public class UserController {
     @Autowired
     private UserRepository userRepo;
 
-    @PostMapping(path="/login")
+    @GetMapping(path="/login")
+    public String showLoginPage() {
+        return "login";
+    }
+
+    @GetMapping(path="/about")
+    public String showAboutPage() {
+        return "about";
+    }
+
+    @GetMapping(path="/contact")
+    public String showContactPage() {
+        return "contact";
+    }
+
+    @GetMapping("/logout")
+    public String getLogout(HttpSession sess) {
+        sess.invalidate();
+        return "index";
+    }
+
+    @PostMapping(path="/auth")
     public ModelAndView getLogin(@RequestBody MultiValueMap<String,String> payload,
         HttpSession session) {
 
@@ -40,11 +61,11 @@ public class UserController {
         String password = payload.getFirst("password");
         if (!userSvc.authByUsernamePass(username, password)) {
             // error, prompt user to try again
-            mvc.setViewName("error");
+            mvc.setViewName("loginerror");
             mvc.setStatus(HttpStatus.FORBIDDEN);
         }
-        Optional<User> optUser = userRepo.returnUser(username, password);
-        session.setAttribute("username", optUser.get().getUsername());
+        // Optional<User> optUser = userRepo.returnUser(username, password);
+        session.setAttribute("username", username);
         // mvc.addObject("username", optUser.get().getUsername());
         mvc.setStatus(HttpStatus.OK);
         mvc.setViewName("mainpage");
@@ -52,10 +73,10 @@ public class UserController {
         return mvc;
     }
 
-    @GetMapping(path="/createuser")
-    public ModelAndView showCreateUserPage() {
+    @GetMapping(path="/signup")
+    public ModelAndView showSignupPage() {
         ModelAndView mvc = new ModelAndView();
-        mvc.setViewName("createuser");
+        mvc.setViewName("signup");
         return mvc;
     }
 
@@ -66,11 +87,11 @@ public class UserController {
         try {
             userSvc.addUser(userFromForm);
             mvc.addObject("message", "User %s has been created successfully!".formatted(userFromForm.getUsername()));
-            mvc.setViewName("usercreatesuccess");
+            mvc.setViewName("usercreationsuccess");
         } catch (UserException e) {
             mvc.setStatus(HttpStatus.BAD_REQUEST);
             mvc.addObject("message", "Error - %s".formatted(e.getReason()));
-            mvc.setViewName("usercreateerror");
+            mvc.setViewName("usercreationerror");
             e.printStackTrace();
         }
         return mvc;

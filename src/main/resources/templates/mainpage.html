@@ -5,10 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <h1>Welcome <span data-th-text="${session.username}"></span></h1>
-    <!-- allow user to search for recipes, add to favourites (form of list) etc
-    subsequently user can also retrieve from his favourites list -->
+    <header>
+        <div class="topnav">
+
+            <a href="/">
+                <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+            </a>
+            
+            <nav>
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <br>
+    <div class="body">
+        <h1>Welcome <span data-th-text="${session.username}"></span></h1>
+
+        <h2>Start looking up a recipe!</h2>
+        <div>
+            <form action="/search" method="get">
+                <label for="query">Search:</label>
+                <input type="search" name="query">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    
+        
+    
+        <!-- allow user to search for recipes, add to favourites etc
+        subsequently user can also retrieve from his favourites list -->
+    </div>
+    
 </body>
 </html>
