@@ -8,7 +8,7 @@ public class ConversionUtils {
     public static User populateFromDb(SqlRowSet rs) {
 
         User user = new User();
-        user.setUserId(rs.getString("user_id"));
+        user.setUserId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setName(rs.getString("name"));

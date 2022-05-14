@@ -30,12 +30,13 @@
         <div class="recipes">
             <div class="container" data-th-each="recipe : ${recipeList}">
                 
-                <!-- <form action="/search/{recipeId}(recipeId=${recipe.recipeId})" method="get">
+                <form action="/search/recipe" method="get">
                     <input type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
-                </form> -->
-                <a href="/search/{recipeId}(recipeId=${recipe.recipeId})">
+                    <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                </form>
+                <!-- <a href="/search/{recipeId}(recipeId=${recipe.recipeId})">
                     <img data-th-src="${recipe.imageLink}" width="200px" alt="">
-                </a>
+                </a> -->
                 <div data-th-text="${recipe.recipeName}"></div>
                 <br>
             </div>

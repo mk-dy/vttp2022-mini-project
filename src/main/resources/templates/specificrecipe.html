@@ -7,6 +7,34 @@
     <title>Recipe</title>
 </head>
 <body>
-    
+    <div>
+        <h2 data-th-text="${recipe.recipeName}"></h2>
+        <img data-th-src="${recipe.imageLink}" alt="">
+        <p><span style="font-weight: bold;">Source: </span><span data-th-text="${recipe.orgSrc}"></span></p>
+        <p><span style="font-weight: bold;">Serving(s): </span><span data-th-text="${recipe.serving}"></span> pax</p>
+        <p><span style="font-weight: bold;">Calories: </span><span data-th-text="${recipe.calories}"></span></p>
+        <p>Click <a data-th-href="${recipe.orgSrcLink}">here</a> to find out how to make this dish!</p>
+
+        <table>
+            <th>List of Ingredients Needed:</th>
+            <tr data-th-each="ingredient : ${recipe.ingredientLines}">
+                <td data-th-text="${ingredient}"></td>
+            </tr>
+        </table>
+        <br>
+        <table>
+            <th>Health Labels:</th>
+            <tr data-th-each="health : ${recipe.healthLabels}">
+                <td data-th-text="${health}"></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <form action="/search/recipe" method="post">
+            <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+            <button type="submit">Like This Recipe!</button>
+        </form>
+        <p data-th-if="${message != null}" data-th-text="${message}"></p>
+    </div>
 </body>
 </html>

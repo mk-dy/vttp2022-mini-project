@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.vttp2022_project.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Recipe {
     
     private String recipeId;
@@ -9,6 +12,9 @@ public class Recipe {
     private String orgSrcLink;
     private Integer serving;
     private Integer calories;
+    public List<String> ingredientLines = new LinkedList<>();
+    public List<String> healthLabels = new LinkedList<>();
+    private Integer userId;
 
     public String getRecipeName() {
         return recipeName;
@@ -52,6 +58,23 @@ public class Recipe {
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
     }
-
+    public List<String> getIngredientLines() {
+        return ingredientLines;
+    }
+    public void setIngredientLines(List<String> ingredientLines) {
+        this.ingredientLines = ingredientLines;
+    }
+    public List<String> getHealthLabels() {
+        return healthLabels;
+    }
+    public void setHealthLabels(List<String> healthLabels) {
+        this.healthLabels = healthLabels;
+    }
+    public Integer getUserId() {
+        return userId;
+    }
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
     
 }

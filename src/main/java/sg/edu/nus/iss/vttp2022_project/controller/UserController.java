@@ -47,9 +47,9 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String getLogout(HttpSession sess) {
-        sess.invalidate();
-        return "index";
+    public String getLogout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
     @PostMapping(path="/auth")
@@ -64,8 +64,10 @@ public class UserController {
             mvc.setViewName("loginerror");
             mvc.setStatus(HttpStatus.FORBIDDEN);
         }
-        // Optional<User> optUser = userRepo.returnUser(username, password);
+        Optional<User> optUser = userRepo.returnUser(username, password);
+        User user = optUser.get();
         session.setAttribute("username", username);
+        session.setAttribute("userId", user.getUserId());
         // mvc.addObject("username", optUser.get().getUsername());
         mvc.setStatus(HttpStatus.OK);
         mvc.setViewName("mainpage");

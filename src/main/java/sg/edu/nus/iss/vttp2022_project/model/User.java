@@ -2,16 +2,16 @@ package sg.edu.nus.iss.vttp2022_project.model;
 
 public class User {
     
-    private String userId;
+    private Integer userId;
     private String username;
     private String email;
     private String name;
     private String password;
     
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
     public String getUsername() {
