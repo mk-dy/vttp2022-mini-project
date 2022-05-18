@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -37,24 +36,26 @@ public class RecipeService {
 
     private String urlAccessPoint = "https://api.edamam.com/api/recipes/v2";
 
-    public List<Recipe> getRecipeList(String query) {
+
+    // might have to use "url" in place of "query" to accomodate "next page" button
+    public List<Recipe> getRecipeList(String url) {
 
         List<Recipe> recipeList = new LinkedList<>();
         
-        System.out.println(query);
+        // System.out.println(query);
 
-        String url = UriComponentsBuilder.fromUriString(urlAccessPoint)
-            .queryParam("app_key", apiKey)
-            .queryParam("app_id", apiId)
-            .queryParam("q", query)
-            .queryParam("type", "public")
-            .toUriString();
+        // String url = UriComponentsBuilder.fromUriString(urlAccessPoint)
+        //     .queryParam("app_key", apiKey)
+        //     .queryParam("app_id", apiId)
+        //     .queryParam("q", query)
+        //     .queryParam("type", "public")
+        //     .toUriString();
 
         RequestEntity<Void> req = RequestEntity
             .get(url)
             .accept(MediaType.APPLICATION_JSON)
             .build();
-
+        
         RestTemplate template = new RestTemplate();
 
         ResponseEntity<String> resp = null;
@@ -100,12 +101,115 @@ public class RecipeService {
         return recipeList;
     }
 
+    public String getUrlForRecipeSearch(String query) {
+
+        // enables queries with more than one word
+        String actualQuery = query.trim();
+        actualQuery = actualQuery.replaceAll("\\s", "+");
+        System.out.println(actualQuery);
+
+        String url = UriComponentsBuilder.fromUriString(urlAccessPoint)
+            .queryParam("app_key", apiKey)
+            .queryParam("app_id", apiId)
+            .queryParam("q", actualQuery)
+            .queryParam("type", "public")
+            .toUriString();
+
+        return url;
+    }
+
+    public String getUrlForNextPageUsingQuery(String query) {
+
+        String fill = null;
+
+        // enables queries with more than one word
+        String actualQuery = query.trim();
+        actualQuery = actualQuery.replaceAll("\\s", "+");
+        System.out.println(actualQuery);
+
+        String url = UriComponentsBuilder.fromUriString(urlAccessPoint)
+            .queryParam("app_key", apiKey)
+            .queryParam("app_id", apiId)
+            .queryParam("q", actualQuery)
+            .queryParam("type", "public")
+            .toUriString();
+
+        RequestEntity<Void> req = RequestEntity
+            .get(url)
+            .accept(MediaType.APPLICATION_JSON)
+            .build();
+
+        RestTemplate template = new RestTemplate();
+
+        ResponseEntity<String> resp = null;
+        
+        try {
+            resp = template.exchange(req, String.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return fill;
+        }
+
+        JsonReader reader = Json.createReader(new StringReader(resp.getBody()));
+        JsonObject obj = reader.readObject();
+        String nextPageUrl;
+        JsonObject link = obj.getJsonObject("_links")
+                    .getJsonObject("next");
+        if (link == null) {
+            nextPageUrl = null;
+            return nextPageUrl;
+        }
+        nextPageUrl = obj.getJsonObject("_links")
+                    .getJsonObject("next")
+                    .getString("href");
+
+        return nextPageUrl;
+    }
+
+    public String getUrlForNextPageUsingLink(String url) {
+
+        String fill = null;
+
+        RequestEntity<Void> req = RequestEntity
+            .get(url)
+            .accept(MediaType.APPLICATION_JSON)
+            .build();
+
+        RestTemplate template = new RestTemplate();
+
+        ResponseEntity<String> resp = null;
+        
+        try {
+            resp = template.exchange(req, String.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return fill;
+        }
+
+        JsonReader reader = Json.createReader(new StringReader(resp.getBody()));
+        JsonObject obj = reader.readObject();
+        String nextPageUrl;
+        JsonObject link = obj.getJsonObject("_links")
+                    .getJsonObject("next");
+        if (link == null) {
+            nextPageUrl = null;
+            return nextPageUrl;
+        }
+        nextPageUrl = obj.getJsonObject("_links")
+                    .getJsonObject("next")
+                    .getString("href");
+        
+        nextPageUrl = nextPageUrl.replaceAll("%3D", "=");
+        return nextPageUrl;
+    }
+    
+
     public Recipe getSingleRecipe(String recipeId) {
 
         Recipe recipe = new Recipe();
 
         String urlAccessPoint = "https://api.edamam.com/api/recipes/v2/" + recipeId;
-
+        
         String url = UriComponentsBuilder.fromUriString(urlAccessPoint)
             .queryParam("app_key", apiKey)
             .queryParam("app_id", apiId)
@@ -142,6 +246,7 @@ public class RecipeService {
         String recipeSourceUrl = recipeInfo.getString("url");
         Integer serving = recipeInfo.getInt("yield");
         Integer calories = recipeInfo.getInt("calories");
+
         recipe.setRecipeId(recipeId2);
         recipe.setRecipeName(recipeName);
         recipe.setImageLink(foodImage);
@@ -165,61 +270,63 @@ public class RecipeService {
         return recipe;
     }
 
-    
+    @Transactional
     public boolean insertLikedRecipe(Recipe recipe, Integer userId) {
         Optional<List<Recipe>> optRecipeList = likedRecipeRepo.getRecipe(userId);
         System.out.println("check website recipeid: " + recipe.getRecipeId());
         System.out.println("check website name: " + recipe.getRecipeName());
         System.out.println("check website userid: " + userId);
         
-        // if table does not contain the recipe at all
+        // if table does not contain any recipes at all, just insert
         if (optRecipeList.isEmpty()) {
             boolean check = likedRecipeRepo.insertLikedRecipe(recipe, userId);
             return check;
         }
         
-        // if table has data
+        // if table has data, check for recipe
         if (optRecipeList.isPresent()) {
             List<Recipe> recipeList = optRecipeList.get();
-            // System.out.println("check database recipeid: " + recipeList.get(0).getRecipeId());
-            // System.out.println("check database name: " + recipeList.get(0).getRecipeName());
-            // System.out.println("check database userid: " + recipeList.get(0).getUserId());
-            // check if list already contains existing recipe
-
-            // for (int i = 0; i < recipeList.size(); i++) {
-            //     if (recipe.getRecipeId() == recipeList.get(i).getRecipeId() && userId == recipeList.get(i).getUserId()) {
-            //         throw new IllegalArgumentException("Recipe has already been saved previously.");
-            //     }
+            try {
+                for (Recipe recipeCheck: recipeList) {
+                    // == FOR SAME MEMORY LOCATION, .EQUALS() FOR COMPARING THE INNER VALUES
+                    if (recipeCheck.getRecipeId().equals(recipe.getRecipeId()) 
+                    && recipeCheck.getUserId().equals(userId)) {
+                        // throw error
+                         throw new IllegalArgumentException("You have already liked this recipe previously!");
+                    }     
+                }
+                // if table has data but looped and found nothing,
+                // insert the data into table
+                boolean check = likedRecipeRepo.insertLikedRecipe(recipe, userId);
+                return check;
                 
-            // }
-            
-            // needs fixing
-            for (Recipe recipeCheck: recipeList) {
-                if (recipeCheck.getRecipeId() == recipe.getRecipeId()
-                    && recipeCheck.getUserId() == userId) {
-                    
-                    // throw error
-                    throw new IllegalArgumentException("Recipe has already been saved previously.");
-                }     
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
             }
 
-            // if table has data but looped and found nothing,
-            // insert the data into table
-            boolean check = likedRecipeRepo.insertLikedRecipe(recipe, userId);
-            return check;
         }
-        
         return false;
-        
-
+    
+    }
+    
+    public List<Recipe> getLikedRecipes(Integer userId) {
+        Optional<List<Recipe>> optRecipeList = likedRecipeRepo.getRecipe(userId);
+        if (optRecipeList.isEmpty()) {
+            return null;
+        }
+        List<Recipe> recipeList = optRecipeList.get();
+        return recipeList;
     }
 
-    // if recipe already exists in liked table, prompt error
-    // how to check?
-    // if recipe id, recipe name and userId already exists in the list of recipes
-    // prompt error
-    
+    public boolean deleteLikedRecipe(String recipeId) {
+        boolean check = likedRecipeRepo.deleteLikedRecipe(recipeId);
+        if (check == true) {
+            return true;
+        }
+        return false;
 
+    }
 
     
 }

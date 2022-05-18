@@ -18,6 +18,7 @@ create table likes (
     like_id int not null auto_increment,
     recipeid varchar(64) not null,
     recipename varchar(64) not null,
+    image varchar(512),
     user_id int,
     primary key (like_id),
 

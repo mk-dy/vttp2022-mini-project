@@ -20,8 +20,11 @@ public interface SQLStatements {
 
     // recipe-related
     public static final String SQL_INSERT_LIKED_RECIPE = 
-    "insert into likes (recipeid, recipename, user_id) values (?,?,?)";
+    "insert into likes (recipeid, recipename, image, user_id) values (?,?,?,?)";
 
     public static final String SQL_SELECT_ALL_RECIPES_BY_USERID = 
     "select * from likes where user_id = ?";
+
+    public static final String SQL_DELETE_RECIPE_BY_RECIPEID = 
+    "delete from likes where recipeid = ?";
 }

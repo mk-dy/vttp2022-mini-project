@@ -24,14 +24,17 @@
     </header>
     <br clear="all" />
     <div class="form">
+        <div data-th-if="${message != null}">
+            <p style="color: red;">The username or password that you have entered is incorrect, please try again.</p>
+        </div>
         <form action="/auth" method="post">
             
             <div class="input">
-                <label for="username">Username</label>
+                <label for="username">Username: </label>
                 <input type="text" name="username" required>
             </div>
             <div class="input">
-                <label for="password">Password</label>
+                <label for="password">Password: </label>
                 <input type="password" name="password" required>
             </div>
             <div class="input">

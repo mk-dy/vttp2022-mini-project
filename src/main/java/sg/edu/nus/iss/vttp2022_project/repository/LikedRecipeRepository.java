@@ -33,6 +33,7 @@ public class LikedRecipeRepository {
             Recipe recipe = new Recipe();
             recipe.setRecipeId(rs.getString("recipeId"));
             recipe.setRecipeName(rs.getString("recipename"));
+            recipe.setImageLink(rs.getString("image"));
             recipe.setUserId(rs.getInt("user_id"));
             recipeList.add(recipe);
         }
@@ -46,7 +47,16 @@ public class LikedRecipeRepository {
             SQL_INSERT_LIKED_RECIPE,
             recipe.getRecipeId(),
             recipe.getRecipeName(),
+            recipe.getImageLink(),
             userId
+        );
+        return count > 0;
+    }
+
+    public boolean deleteLikedRecipe(String recipeId) {
+        Integer count = template.update(
+            SQL_DELETE_RECIPE_BY_RECIPEID,
+            recipeId
         );
         return count > 0;
     }

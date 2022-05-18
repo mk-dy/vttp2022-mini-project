@@ -6,17 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="search.css">
 </head>
 <body>
     <header>
         <div class="topnav">
 
-            <a href="/">
-                <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
-            </a>
+            <div data-th-if="${session.username != null}">
+                <a href="/main">
+                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
+            <div data-th-unless="${session.username != null}">
+                <a href="/">
+                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
             
             <nav>
                 <a href="/">Home</a>
+                <a href="/liked">Liked Recipes</a>
                 <a href="/about">About</a>
                 <a href="/contact">Contact</a>
                 <a href="/logout">Logout</a>

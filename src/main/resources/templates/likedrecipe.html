@@ -5,8 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liked Recipes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    
+    <h1>My liked recipes</h1>
+    <table class="table table-hover" data-th-if="${recipeList != null}">
+        <tr data-th-each="recipe : ${recipeList}">
+            <td><img data-th-src="${recipe.imageLink}" width="100px" alt=""></td>
+            <td data-th-text="${recipe.recipeName}"></td>
+            <td>
+                <form action="/search/recipe" method="get">
+                    <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                    <button type="submit" class="btn btn-outline-info">More Details</button>
+                </form>
+            </td>
+            <td>
+                <form action="/liked" method="post">
+                    <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                    <button type="submit" class="btn btn-outline-info">x</button>
+                </form>
+                
+            </td>
+        </tr>
+    </table>
+    <table class="table table-hover" data-th-unless="${recipeList != null}">
+        <tr>
+            <td>You have not liked any recipes yet!</td>
+        </tr>
+    </table>
 </body>
 </html>

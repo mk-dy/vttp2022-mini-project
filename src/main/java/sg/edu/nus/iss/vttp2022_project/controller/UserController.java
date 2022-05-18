@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.nus.iss.vttp2022_project.model.ConversionUtils;
@@ -32,7 +31,10 @@ public class UserController {
     private UserRepository userRepo;
 
     @GetMapping(path="/login")
-    public String showLoginPage() {
+    public String showLoginPage(HttpSession session) {
+        if (session.getAttribute("username") != null) {
+            return "redirect:/main";
+        }
         return "login";
     }
 
@@ -61,17 +63,30 @@ public class UserController {
         String password = payload.getFirst("password");
         if (!userSvc.authByUsernamePass(username, password)) {
             // error, prompt user to try again
-            mvc.setViewName("loginerror");
+            mvc.addObject("message", "Error");
+            mvc.setViewName("login");
             mvc.setStatus(HttpStatus.FORBIDDEN);
+            return mvc;
         }
         Optional<User> optUser = userRepo.returnUser(username, password);
         User user = optUser.get();
         session.setAttribute("username", username);
         session.setAttribute("userId", user.getUserId());
-        // mvc.addObject("username", optUser.get().getUsername());
         mvc.setStatus(HttpStatus.OK);
         mvc.setViewName("mainpage");
         
+        return mvc;
+    }
+
+    @GetMapping(path="/main")
+    public ModelAndView showMainPage(HttpSession session) {
+        ModelAndView mvc = new ModelAndView();
+        System.out.println(session.getAttribute("username"));
+        if (session.getAttribute("username") == null) {
+            mvc.setViewName("redirect:/");
+            return mvc;
+        }
+        mvc.setViewName("mainpage");
         return mvc;
     }
 

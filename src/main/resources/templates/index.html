@@ -11,14 +11,25 @@
     <header>
         <div class="topnav">
 
-            <a href="/">
-                <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
-            </a>
+            <div data-th-if="${session.username != null}">
+                <a href="/main">
+                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
+            <div data-th-unless="${session.username != null}">
+                <a href="/">
+                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
             
             <nav>
                 <a href="/">Home</a>
                 <a href="/about">About</a>
                 <a href="/contact">Contact</a>
+                <div data-th-if="${session.username != null}">
+                    <p>Hi,<span data-th-text="${session.username}"></span>!</p>
+                </div>
+                
             </nav>
         </div>
     </header>
@@ -42,9 +53,9 @@
         <div style="display: table;">
             <div class="body-frontpage" style="float: left;">
                 <h1 style="font-size:60px;">Come Now, <br>It's Time To Dig Into <br>Some Of Our Favourite Recipes</h1>
-                <p style="font-size:18px;">Facing troubles cooking a particular dish?</p>
-                <p style="font-size:18px;">Have no fear, our website can help you with that!</p>
-                <a href="/login" class="button">Start By Logging In</a>
+                <p style="font-size:18px; font-family: 'Raleway', sans-serif;">Facing troubles cooking a particular dish?</p>
+                <p style="font-size:18px; font-family: 'Raleway', sans-serif;">Have no fear, our website can help you with that!</p>
+                <a href="/login" class="button">Get Started</a>
             </div>
         
             <div class="indexImage" style="float: left;">

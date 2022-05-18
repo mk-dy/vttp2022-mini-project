@@ -5,8 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe</title>
+    <link rel="stylesheet" href="main.css">
+    
 </head>
 <body>
+    <header>
+        <div class="topnav">
+
+            <div data-th-if="${session.username != null}">
+                <a href="/main">
+                    <img src="../images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
+            <div data-th-unless="${session.username != null}">
+                <a href="/">
+                    <img src="../images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
+            
+            <nav>
+                <a href="/">Home</a>
+                <a href="/liked">Liked Recipes</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+    
     <div>
         <h2 data-th-text="${recipe.recipeName}"></h2>
         <img data-th-src="${recipe.imageLink}" alt="">
@@ -34,7 +60,9 @@
             <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
             <button type="submit">Like This Recipe!</button>
         </form>
-        <p data-th-if="${message != null}" data-th-text="${message}"></p>
+        <p data-th-if="${message != null and check == true}" data-th-text="${message}"></p>
+        <!-- add colour changes of green and red -->
+        <p data-th-if="${message != null and check == false}" data-th-text="${message}"></p>
     </div>
 </body>
 </html>

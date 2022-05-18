@@ -5,19 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
-
+    <style>
+        ul {
+            list-style: none; 
+            columns: 4;
+            -webkit-columns: 4;
+            -moz-columns: 4;
+            
+        }
+        li {
+            display: inline-block;
+            margin: 30px;
+        }
+      </style>
 </head>
 <body>
     <header>
         <div class="topnav">
 
-            <a href="/">
-                <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
-            </a>
+            <div data-th-if="${session.username != null}">
+                <a href="/main">
+                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
+            <div data-th-unless="${session.username != null}">
+                <a href="/">
+                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                </a>
+            </div>
             
             <nav>
+                
                 <a href="/">Home</a>
+                <a href="/liked">Liked Recipes</a>
                 <a href="/about">About</a>
                 <a href="/contact">Contact</a>
                 <a href="/logout">Logout</a>
@@ -25,47 +47,77 @@
         </div>
     </header>
 
+    <!-- search bar -->
+    <div>
+        <form action="/search" method="get">
+            <label for="query">Search:</label>
+            <input type="search" name="query">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
     <div class="body">
         <h1>Matching results for "<span data-th-text="${query}"></span>"</h1>
-        <div class="recipes">
-            <div class="container" data-th-each="recipe : ${recipeList}">
-                
-                <form action="/search/recipe" method="get">
-                    <input type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
-                    <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
-                </form>
-                <!-- <a href="/search/{recipeId}(recipeId=${recipe.recipeId})">
-                    <img data-th-src="${recipe.imageLink}" width="200px" alt="">
-                </a> -->
-                <div data-th-text="${recipe.recipeName}"></div>
-                <br>
-            </div>
-            
-            <!-- <div class="container" data-th-each="recipe : ${recipeList}">
-                <img data-th-src="${recipe.imageLink}">
-                <div data-th-text="${recipe.recipeName}"></div>
-                <div data-th-text="${recipe.recipeId}" hidden></div>
-                <br>
-            </div> -->
+
+        <div class="recipes" style="display: inline;">
+            <ul class="columns">
+               <li class="card" style="width: 18rem;" data-th-each="recipe : ${recipeList}">
+                    <form action="/search/recipe" method="get">
+                        <input class="card-img-top" type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
+                        <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                    </form>
+                    <div class="card-body" data-th-text="${recipe.recipeName}"></div>
+               </li> 
+            </ul>
+        </div>
+        <!-- <div class="recipes" style="display: inline;">
+            <ul class="columns">
+               <li data-th-each="recipe : ${recipeList}">
+                    <form action="/search/recipe" method="get">
+                        <input type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
+                        <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                    </form>
+                    <div data-th-text="${recipe.recipeName}"></div>
+               </li> 
+            </ul>
+        </div> -->
+
+
     
-            <!-- <table>
-                <tr data-th-each="recipe : ${recipeList}">
-                    <td><img data-th-src="${recipe.imageLink}" alt=""></td>
-                    <td data-th-text="${recipe.recipeName}"></td>
-                    <td data-th-text="${recipe.recipeId}"></td>
-                </tr>
-            </table> -->
+        <!-- previous button, no thank you -->
+        <!-- <div data-th-if="${previousPageUrl == null}">
+            <form action="/search" method="post">
+                <button type="button" disabled>Previous Page</button>
+            </form>
+        </div>
+        <div data-th-unless="${previousPageUrl == null}">
 
-            <!-- <table>
-                <tr>
-                    <td data-th-each="recipe : ${recipeList}">
-                        <p><img data-th-src="${recipe.imageLink}" alt=""></p>
-                        <p data-th-text="${recipe.recipeName}"></p>
-                        <p data-th-text="${recipe.recipeId}" hidden></p>
-                    </td>
-                </tr>
-            </table> -->
+            <form action="/search" method="post">
+                <input type="hidden" name="query" data-th-value="${query}">
+                <input type="hidden" name="previousPageUrl" data-th-value="${previousPageUrl}">
+                <button type="submit">Previous Page</button>
+            </form>
+        </div> -->
 
+        <!-- next button -->
+        <div data-th-unless="${nextPageUrl == null}">
+            <form action="/search" method="post">
+                <input type="hidden" name="query" data-th-value="${query}">
+                <input type="hidden" name="nextPageUrl" data-th-value="${nextPageUrl}">
+                <!-- <div data-th-if="${currentPageUrl != null}">
+                    <input type="hidden" name="previousPageUrl" data-th-value="${currentPageUrl}">
+                </div>
+                <div data-th-unless="${currentPageUrl == null}">
+                    <input type="hidden" name="previousPageUrl" data-th-value="${previousPageUrl}">
+                </div> -->
+                <button type="submit">Next Page</button>
+            </form>
+        </div>
+        <div data-th-if="${nextPageUrl == null}">
+            <form action="/search" method="post">
+                <input type="hidden" name="query" data-th-value="${query}">
+                <button type="button" disabled>Next Page</button>
+            </form>
         </div>
     </div>
     
