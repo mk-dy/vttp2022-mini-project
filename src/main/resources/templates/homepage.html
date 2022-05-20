@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Foodie | Homepage</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="search.css">
+    <!-- <link rel="stylesheet" href="search.css"> -->
 </head>
 <body>
     <header>
         <div class="topnav">
 
             <div data-th-if="${session.username != null}">
-                <a href="/main">
-                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                <a href="/home">
+                    <img src="/images/vttpProjectLogoTest.svg" alt="" class="logo">
                 </a>
             </div>
             <div data-th-unless="${session.username != null}">
                 <a href="/">
-                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                    <img src="/images/vttpProjectLogoTest.svg" alt="" class="logo">
                 </a>
             </div>
             
             <nav>
-                <a href="/">Home</a>
-                <a href="/liked">Liked Recipes</a>
+                <!-- <a href="/home/likedrecipes">Liked Recipes</a> -->
+                <a data-th-href="@{/home/{userId}/likedrecipes(userId = ${session.userId})}">Liked Recipes</a>
                 <a href="/about">About</a>
                 <a href="/contact">Contact</a>
                 <a href="/logout">Logout</a>
@@ -38,7 +38,7 @@
 
         <h2>Start looking up a recipe!</h2>
         <div>
-            <form action="/search" method="get">
+            <form action="/home/search" method="get">
                 <label for="query">Search:</label>
                 <input type="search" name="query">
                 <button type="submit">Submit</button>

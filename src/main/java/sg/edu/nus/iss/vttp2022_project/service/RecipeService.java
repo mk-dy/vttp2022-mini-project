@@ -20,13 +20,13 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import sg.edu.nus.iss.vttp2022_project.model.Recipe;
-import sg.edu.nus.iss.vttp2022_project.repository.LikedRecipeRepository;
+import sg.edu.nus.iss.vttp2022_project.repository.RecipeRepository;
 
 @Service
 public class RecipeService {
     
     @Autowired
-    private LikedRecipeRepository likedRecipeRepo;
+    private RecipeRepository likedRecipeRepo;
 
     @Value("${edamam.api.key}")
     private String apiKey;

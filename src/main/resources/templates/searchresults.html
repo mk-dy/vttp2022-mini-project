@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+    <title>Foodie | Results</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
     <style>
         ul {
             list-style: none; 
@@ -19,6 +19,12 @@
             display: inline-block;
             margin: 30px;
         }
+        .logo {
+        width: 10%;
+        height: 10%;
+        float: left;
+        padding: 20px 0 0 100px;
+        }
       </style>
 </head>
 <body>
@@ -26,20 +32,19 @@
         <div class="topnav">
 
             <div data-th-if="${session.username != null}">
-                <a href="/main">
-                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                <a href="/home">
+                    <img src="/images/vttpProjectLogoTest.svg" alt="" class="logo">
                 </a>
             </div>
             <div data-th-unless="${session.username != null}">
                 <a href="/">
-                    <img src="images/vttpProjectLogoTest.svg" alt="" class="logo">
+                    <img src="/images/vttpProjectLogoTest.svg" alt="" class="logo">
                 </a>
             </div>
             
             <nav>
-                
-                <a href="/">Home</a>
-                <a href="/liked">Liked Recipes</a>
+                <!-- <a href="/home/likedrecipes">Liked Recipes</a> -->
+                <a data-th-href="@{/home/{userId}/likedrecipes(userId = ${session.userId})}">Liked Recipes</a>
                 <a href="/about">About</a>
                 <a href="/contact">Contact</a>
                 <a href="/logout">Logout</a>
@@ -49,7 +54,7 @@
 
     <!-- search bar -->
     <div>
-        <form action="/search" method="get">
+        <form action="/home/search" method="get">
             <label for="query">Search:</label>
             <input type="search" name="query">
             <button type="submit">Submit</button>
@@ -62,9 +67,9 @@
         <div class="recipes" style="display: inline;">
             <ul class="columns">
                <li class="card" style="width: 18rem;" data-th-each="recipe : ${recipeList}">
-                    <form action="/search/recipe" method="get">
+                    <form data-th-action="@{/home/recipe/{recipeId}(recipeId=${recipe.recipeId})}" method="get">
                         <input class="card-img-top" type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
-                        <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                        <!-- <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}"> -->
                     </form>
                     <div class="card-body" data-th-text="${recipe.recipeName}"></div>
                </li> 
@@ -101,7 +106,7 @@
 
         <!-- next button -->
         <div data-th-unless="${nextPageUrl == null}">
-            <form action="/search" method="post">
+            <form action="/home/search" method="post">
                 <input type="hidden" name="query" data-th-value="${query}">
                 <input type="hidden" name="nextPageUrl" data-th-value="${nextPageUrl}">
                 <!-- <div data-th-if="${currentPageUrl != null}">
@@ -114,7 +119,7 @@
             </form>
         </div>
         <div data-th-if="${nextPageUrl == null}">
-            <form action="/search" method="post">
+            <form action="/home/search" method="post">
                 <input type="hidden" name="query" data-th-value="${query}">
                 <button type="button" disabled>Next Page</button>
             </form>

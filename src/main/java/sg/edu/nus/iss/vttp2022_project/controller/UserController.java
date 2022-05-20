@@ -30,10 +30,18 @@ public class UserController {
     @Autowired
     private UserRepository userRepo;
 
+    // @GetMapping(path="/")
+    // public String showIndexPage(HttpSession session) {
+    //     // if (session.getAttribute("username") != null) {
+    //     //     return "redirect:/home";
+    //     // }
+    //     return "index";
+    // }
+    
     @GetMapping(path="/login")
     public String showLoginPage(HttpSession session) {
         if (session.getAttribute("username") != null) {
-            return "redirect:/main";
+            return "redirect:/home";
         }
         return "login";
     }
@@ -73,20 +81,20 @@ public class UserController {
         session.setAttribute("username", username);
         session.setAttribute("userId", user.getUserId());
         mvc.setStatus(HttpStatus.OK);
-        mvc.setViewName("mainpage");
+        mvc.setViewName("homepage");
         
         return mvc;
     }
 
-    @GetMapping(path="/main")
-    public ModelAndView showMainPage(HttpSession session) {
+    @GetMapping(path="/home")
+    public ModelAndView showHomePage(HttpSession session) {
         ModelAndView mvc = new ModelAndView();
-        System.out.println(session.getAttribute("username"));
-        if (session.getAttribute("username") == null) {
-            mvc.setViewName("redirect:/");
-            return mvc;
-        }
-        mvc.setViewName("mainpage");
+        // System.out.println(session.getAttribute("username"));
+        // if (session.getAttribute("username") == null) {
+        //     mvc.setViewName("redirect:/");
+        //     return mvc;
+        // }
+        mvc.setViewName("homepage");
         return mvc;
     }
 
@@ -101,10 +109,12 @@ public class UserController {
     public ModelAndView createAccount(@RequestBody MultiValueMap<String,String> payload) {
         ModelAndView mvc = new ModelAndView();
         User userFromForm = ConversionUtils.populateFromForm(payload);
+        System.out.println(">>>>>>>>>> testing");
         try {
             userSvc.addUser(userFromForm);
             mvc.addObject("message", "User %s has been created successfully!".formatted(userFromForm.getUsername()));
             mvc.setViewName("usercreationsuccess");
+            mvc.setStatus(HttpStatus.OK);
         } catch (UserException e) {
             mvc.setStatus(HttpStatus.BAD_REQUEST);
             mvc.addObject("message", "Error - %s".formatted(e.getReason()));
