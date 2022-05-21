@@ -5,23 +5,191 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foodie | Create an Account</title>
-    <link rel="stylesheet" href="main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .body {
+            height: 100vh;
+            background: #ffffff !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            overflow: hidden;
+            border: 0 !important;
+            border-radius: 20px !important;
+            box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .img-left {
+            width: 45%;
+            background: url('img.jpg') center;
+            background-size: cover;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .title {
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .form-input {
+            position: relative;
+        }
+
+        .form-input input {
+            width: 100%;
+            height: 45px;
+            padding-left: 40px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            box-shadow: none;
+            border: 1px solid #4dc8b5;
+            border-radius: 50px;
+            outline: none;
+            background: transparent;
+        }
+
+        .form-input span {
+            position: absolute;
+            top: 10px;
+            padding-left: 15px;
+            color: #4dc8b5;
+        }
+
+        .form-input input::placeholder {
+            color: rgb(150, 150, 150);
+            padding-left: 0px;
+        }
+
+        .form-input input:focus, .form-input input:valid {
+            border: 2px solid #4dc8b5;
+        }
+
+        .form-input input:focus::placeholder {
+            color: #454b69;
+        }
+
+        .form-box button[type="submit"] {
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            background: #237C6E;
+            color: rgb(255, 255, 255);
+            font-size: 90%;
+            font-weight: bold;
+            letter-spacing: .1rem;
+            transition: 0.5s;
+            padding: 12px 36px;
+        }
+
+        .form-box button[type="submit"]:hover {
+            background: #000000;
+        }
+
+        .forget-link:hover, .register-link:hover {
+            color: #0069d9;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div class="topnav">
-
-            <a href="/">
-                <img src="/images/vttpProjectLogoTest.svg" alt="" class="logo">
-            </a>
-            
-            <nav>
-                <a href="/about">About</a>
-                <a href="/contact">Contact</a>
-            </nav>
-        </div>
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <div data-th-if="${session.username != null}">
+                    <a class="navbar-brand" href="/home">
+                        <img src="/images/vttpProjectLogoTest.svg" alt="" width="150" class="d-inline-block align-text-top">
+                    </a>
+                </div>
+                <div data-th-unless="${session.username != null}">
+                    <a class="navbar-brand" href="/">
+                        <img src="/images/vttpProjectLogoTest.svg" alt="" width="150" class="d-inline-block align-text-top">
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown" data-th-if="${session.username != null}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Hi, <span data-th-text="${session.username}"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </nav>
     </header>
-    <br clear="all" />
+
+    <div class="body">
+        <div class="container">
+            <div class="row px-3">
+                <div class="col-lg-10 col-xl-9 card flex-row mx-auto px-0">
+                    <div class="img-left d-none d-md-flex">
+                        <img src="/images/chad-montano-eeqbbemH9-c-unsplash.jpg" class="img-fluid">
+                    </div>
+            
+                    <div class="card-body" style="background-color: #ffffff;">
+                        <h4 class="title text-center mt-4">Signup As A Foodie</h4>
+                        <br>
+                        <form action="/createaccount" method="post" class="form-box px-3">
+                            <div class="form-input">
+                                <span><i class="fa fa-user-o"></i></span>
+                                <input type="text" name="username" placeholder="Enter a Username" tabindex="10" required>
+                            </div>
+                            <div class="form-input">
+                                <span><i class="fa fa-envelope-o"></i></span>
+                                <input type="email" name="email" placeholder="Enter Your Email" tabindex="10" required>
+                            </div>
+                            <div class="form-input">
+                                <span><i class="fa fa-address-card-o"></i></span>
+                                <input type="text" name="name" placeholder="Enter Your Name" tabindex="10" required>
+                            </div>
+                            <div class="form-input">
+                                <span><i class="fa fa-lock"></i></span>
+                                <input type="password" name="password" placeholder="Enter a Password" required>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit">SIGN UP</button>
+                            </div>
+                            
+                            <hr class="my-4">
+        
+                            <div class="text-center mb-2">
+                                Click <a href="/">here</a> to return to the homepage.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <br clear="all" />
     <div>
         <form action="/createaccount" method="post">
             <div class="input">
@@ -39,13 +207,13 @@
             <div class="input">
                 <label for="password">Enter a password</label>
                 <input type="password" name="password">
-            </div>
-            <div class="input">
-                <button type="submit">Create</button>
-            </div>
-            <div class="input">
+            </div> -->
+            <!-- <div class="input">
+                <button type="submit">Sign Up</button>
+            </div> -->
+            <!-- <div class="input">
                 <p>Click <a href="/">here</a> to return to the homepage.</p>
-            </div>
+            </div> -->
         </form>
     </div>
     

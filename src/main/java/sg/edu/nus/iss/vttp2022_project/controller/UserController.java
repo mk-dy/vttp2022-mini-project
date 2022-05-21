@@ -117,7 +117,7 @@ public class UserController {
             mvc.setStatus(HttpStatus.OK);
         } catch (UserException e) {
             mvc.setStatus(HttpStatus.BAD_REQUEST);
-            mvc.addObject("message", "Error - %s".formatted(e.getReason()));
+            mvc.addObject("message", "Error: %s".formatted(e.getReason()));
             mvc.setViewName("usercreationerror");
             e.printStackTrace();
         }
