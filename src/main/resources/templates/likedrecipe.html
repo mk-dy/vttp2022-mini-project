@@ -5,33 +5,118 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foodie | Liked Recipes</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+        .navbar-nav {
+            margin-left: auto;
+        }
+        .nav-item {
+            padding-left:15px;
+            padding-right:15px;
+        }
+        .nav-link {
+            /* font-weight: bold; */
+            color:black;
+            text-transform: uppercase;
+        }
+        .nav-link:hover {
+            border-bottom: 0.05rem solid #000000;
+        }
+        .button {
+            background-color: #237C6E;
+            border-radius: 25px;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Trebuchet MS';
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>My liked recipes</h1>
-    <table class="table table-hover" data-th-if="${recipeList != null}">
-        <tr data-th-each="recipe : ${recipeList}">
-            <td><img data-th-src="${recipe.imageLink}" width="100px" alt=""></td>
-            <td data-th-text="${recipe.recipeName}"></td>
-            <td>
-                <form data-th-action="@{/home/recipe/{recipeId}(recipeId=${recipe.recipeId})}" method="get">
-                    <!-- <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}"> -->
-                    <button type="submit" class="btn btn-outline-info">More Details</button>
-                </form>
-            </td>
-            <td>
-                <form data-th-action="@{/home/{userId}/likedrecipes(userId = ${userId})}" method="post">
-                    <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
-                    <button type="submit" class="btn btn-outline-info">x</button>
-                </form>
+    <header>
+        <nav class="navbar navbar-expand-lg" style="background-color: hsl(41, 100%, 94%);" >
+            <div class="container">
+                <div data-th-if="${session.username != null}">
+                    <a class="navbar-brand" href="/home">
+                        <img src="/images/vttpProjectLogoTest.svg" alt="" width="150" class="d-inline-block align-text-top">
+                    </a>
+                </div>
+                <div data-th-unless="${session.username != null}">
+                    <a class="navbar-brand" href="/">
+                        <img src="/images/vttpProjectLogoTest.svg" alt="" width="150" class="d-inline-block align-text-top">
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown" data-th-if="${session.username != null}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Hi, <span style="font-weight:bold;"><span data-th-text="${session.username}"></span></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 
-            </td>
-        </tr>
-    </table>
-    <table class="table table-hover" data-th-unless="${recipeList != null}">
-        <tr>
-            <td>You have not liked any recipes yet!</td>
-        </tr>
-    </table>
+            </div>
+        </nav>
+    </header>
+    <div class="container my-5">
+        <div class="col mb-5">
+            <h1 style="font-size: 3.5rem; font-family: 'Roboto', sans-serif;">My Liked Recipes</h1>            
+        </div>
+        
+        <table class="table table-hover" data-th-if="${recipeList != null}">
+            <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">RECIPE NAME</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="recipe : ${recipeList}">
+
+                    <td><img data-th-src="${recipe.imageLink}" width="100px" alt=""></td>
+                    <td data-th-text="${recipe.recipeName}"></td>
+                    <td>
+                        <form data-th-action="@{/home/recipe/{recipeId}(recipeId=${recipe.recipeId})}" method="get">
+                            <!-- <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}"> -->
+                            <button type="submit" class="btn btn-outline-dark">More Details</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form data-th-action="@{/home/{userId}/likedrecipes(userId = ${userId})}" method="post">
+                            <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
+                            <button type="submit" class="btn btn-outline-danger">X</button>
+                        </form>
+                        
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+        <table class="table table-hover" data-th-unless="${recipeList != null}">
+            <tr>
+                <td>You have not liked any recipes yet!</td>
+            </tr>
+        </table>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>

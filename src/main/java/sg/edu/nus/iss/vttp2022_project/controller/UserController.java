@@ -29,14 +29,6 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepo;
-
-    // @GetMapping(path="/")
-    // public String showIndexPage(HttpSession session) {
-    //     // if (session.getAttribute("username") != null) {
-    //     //     return "redirect:/home";
-    //     // }
-    //     return "index";
-    // }
     
     @GetMapping(path="/login")
     public String showLoginPage(HttpSession session) {
@@ -89,11 +81,6 @@ public class UserController {
     @GetMapping(path="/home")
     public ModelAndView showHomePage(HttpSession session) {
         ModelAndView mvc = new ModelAndView();
-        // System.out.println(session.getAttribute("username"));
-        // if (session.getAttribute("username") == null) {
-        //     mvc.setViewName("redirect:/");
-        //     return mvc;
-        // }
         mvc.setViewName("homepage");
         return mvc;
     }
@@ -123,10 +110,4 @@ public class UserController {
         }
         return mvc;
     }    
-    
-
-
-
-
-
 }

@@ -5,21 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import sg.edu.nus.iss.vttp2022_project.model.Recipe;
-import sg.edu.nus.iss.vttp2022_project.repository.RecipeRepository;
-import sg.edu.nus.iss.vttp2022_project.service.RecipeService;
 
 @SpringBootTest
 public class RecipeServiceTest {

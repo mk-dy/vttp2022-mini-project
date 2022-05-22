@@ -1,4 +1,4 @@
-name: Compile, test, deploy
+name: Compile and Test
 on: [ "push" ]
 env:
   EDAMAM_API_KEY: ${{ secrets.edamam_api_key }}
