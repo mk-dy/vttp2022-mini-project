@@ -50,6 +50,9 @@
             background: #ffffff;
             color: #474747;
         }
+        .dropdown-menu {
+            background-color: hsl(41, 100%, 94%);
+        }
       </style>
 </head>
 <body>
@@ -66,18 +69,17 @@
                         <img src="/images/vttpProjectLogoTest.svg" alt="" width="150" class="d-inline-block align-text-top">
                     </a>
                 </div>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="col offset-1">
-                        <div class="input-group">
-                            <form class="form-inline" action="/home/search" method="get"></form>
-                                <input style="max-width:15vw;" class="form-control" type="search" name="query" placeholder="Search for recipes">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-outline-dark" type="submit">Search</button>
-                                </span>
-                            </form>
-                        </div>
+                <div class="col">
+                    <div class="input-group">
+                        <form class="d-flex align-items-center flex-nowrap" action="/home/search" method="get">
+                            <input style="max-width:15vw;" class="form-control" type="search" name="query" placeholder="Find more recipes">
+                            <span class="input-group-btn">
+                                <button class="btn btn-outline-dark" type="submit">Search</button>
+                            </span>
+                        </form>
                     </div>
-
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="/about">About</a>
