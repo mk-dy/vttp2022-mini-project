@@ -199,7 +199,8 @@ public class UserControllerTest {
 
         // Get response
         MockHttpServletResponse resp = result.getResponse();
-        assertEquals(200,resp.getStatus());
+        assertEquals(302,resp.getStatus());
+        // since redirect to home
     }
 
     @Test

@@ -328,5 +328,33 @@ public class RecipeService {
 
     }
 
+    // just trying
+    public String randomiseARecipeId() {
+	
+        List<String> recipeIdList = new LinkedList<>();
+        recipeIdList.add("d2fe0d280de91cd9cd5f3781fc5441a3");
+        recipeIdList.add("9b4b3972ae2d7ebcb88f37abfbb65a33");
+        recipeIdList.add("353aa6aeaf25e64e79067f80dd16513e");
+        recipeIdList.add("110880e24455ef15e2de76501fd5d26e");
+        recipeIdList.add("20022d91be0968092a8eab1aceee81be");
+        recipeIdList.add("ab51e7da2d4500b785c2eabbc724664c");
+        recipeIdList.add("05f46d75e1f5c3366592918362371301");
+        recipeIdList.add("adf2a40f821c63b55af05157998f3f8d");
+        recipeIdList.add("b5a115a74e3aa0b693067a42174d7afb");
+        recipeIdList.add("99e85c42da7481abb0b1e58a7503447a");
+        recipeIdList.add("adfe1df79c4433a02f80c666f3039f29");
+        recipeIdList.add("1189c407cab16cfb2c21a66e0cd55e9b");
+        recipeIdList.add("c73dc8121dbf545e504721b1a32fb137");
+        recipeIdList.add("9f7601d8128273e4612af5accde1ddac");
+        recipeIdList.add("72790cad14ca5813b4f283820cf75600");
+        
+        int min = 0;
+        int max = 14;
+        int randomInt = (int)Math.floor(Math.random()*(max-min+1)+min);
+        System.out.println(randomInt);
+        String randomisedRecipeId = recipeIdList.get(randomInt);
+
+        return randomisedRecipeId;
+    }
     
 }

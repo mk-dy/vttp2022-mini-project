@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sg.edu.nus.iss.vttp2022_project.model.ConversionUtils;
 import sg.edu.nus.iss.vttp2022_project.model.User;
 import sg.edu.nus.iss.vttp2022_project.repository.UserRepository;
+import sg.edu.nus.iss.vttp2022_project.service.RecipeService;
 import sg.edu.nus.iss.vttp2022_project.service.UserException;
 import sg.edu.nus.iss.vttp2022_project.service.UserService;
 
@@ -26,6 +27,9 @@ public class UserController {
     
     @Autowired
     private UserService userSvc;
+
+    @Autowired
+    private RecipeService recipeSvc;
 
     @Autowired
     private UserRepository userRepo;
@@ -73,14 +77,15 @@ public class UserController {
         session.setAttribute("username", username);
         session.setAttribute("userId", user.getUserId());
         mvc.setStatus(HttpStatus.OK);
-        mvc.setViewName("homepage");
-        
+        // mvc.setViewName("homepage");
+        mvc = new ModelAndView("redirect:/home");
         return mvc;
     }
 
     @GetMapping(path="/home")
     public ModelAndView showHomePage(HttpSession session) {
         ModelAndView mvc = new ModelAndView();
+        mvc.addObject("recipeId", recipeSvc.randomiseARecipeId());
         mvc.setViewName("homepage");
         return mvc;
     }
