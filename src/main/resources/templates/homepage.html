@@ -12,8 +12,8 @@
             margin-left: auto;
         }
         .nav-item {
-            padding-left:15px;
-            padding-right:15px;
+            margin-left:1.5vw;
+            margin-right:1.5vw;
         }
         .nav-link {
             /* font-weight: bold; */
@@ -44,6 +44,10 @@
             font-weight: bold;
             margin: 4px 2px;
             cursor: pointer;
+        }
+        .button:hover {
+            background: #ffffff;
+            color: #474747;
         }
     </style>
 </head>
@@ -77,7 +81,7 @@
                                 Hi, <span style="font-weight:bold;"><span data-th-text="${session.username}"></span></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                              <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
                             </ul>
                         </li>
                         

@@ -12,8 +12,8 @@
             margin-left: auto;
         }
         .nav-item {
-            padding-left:15px;
-            padding-right:15px;
+            margin-left:1.5vw;
+            margin-right:1.5vw;
         }
         .nav-link {
             /* font-weight: bold; */
@@ -40,7 +40,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg" style="background-color: hsl(41, 100%, 94%);" >
+        <nav class="navbar navbar-expand-lg" style="background-color: hsl(41, 100%, 94%);">
             <div class="container">
                 <div data-th-if="${session.username != null}">
                     <a class="navbar-brand" href="/home">
@@ -60,12 +60,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Contact</a>
                         </li>
+                        <li class="nav-item" data-th-if="${session.username != null}">
+                            <a class="nav-link" data-th-href="@{/home/{userId}/likedrecipes(userId = ${session.userId})}">Liked Recipes</a>
+                        </li>
                         <li class="nav-item dropdown" data-th-if="${session.username != null}">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Hi, <span style="font-weight:bold;"><span data-th-text="${session.username}"></span></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                              <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
                             </ul>
                         </li>
                     </ul>

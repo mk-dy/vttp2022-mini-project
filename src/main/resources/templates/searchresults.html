@@ -12,8 +12,8 @@
             margin-left: auto;
         }
         .nav-item {
-            padding-left:15px;
-            padding-right:15px;
+            margin-left:1.5vw;
+            margin-right:1.5vw;
         }
         .nav-link {
             /* font-weight: bold; */
@@ -46,6 +46,10 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+        button:hover {
+            background: #ffffff;
+            color: #474747;
+        }
       </style>
 </head>
 <body>
@@ -63,11 +67,17 @@
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <form action="/home/search" method="get">
-                        <!-- <label for="query">Search:</label> -->
-                        <input type="search" name="query" placeholder="Search for recipes">
-                        <button type="submit">Search</button>
-                    </form>
+                    <div class="col offset-1">
+                        <div class="input-group">
+                            <form class="form-inline" action="/home/search" method="get"></form>
+                                <input style="max-width:15vw;" class="form-control" type="search" name="query" placeholder="Search for recipes">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-outline-dark" type="submit">Search</button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="/about">About</a>
@@ -83,7 +93,7 @@
                                 Hi, <span style="font-weight:bold;"><span data-th-text="${session.username}"></span></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                              <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -93,7 +103,7 @@
         </nav>
     </header>
 
-    <div class="container my-5">
+    <div class="container mt-5 pb-3">
         <div class="row mt-5 mb-5">
             <h1 style="color: white; font-family: 'Roboto', sans-serif;">Matching results for "<span data-th-text="${query}"></span>"</h1>
         </div>
