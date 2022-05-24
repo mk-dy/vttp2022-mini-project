@@ -104,7 +104,7 @@ public class UserController {
         System.out.println(">>>>>>>>>> testing");
         try {
             userSvc.addUser(userFromForm);
-            mvc.addObject("message", "User %s has been created successfully!".formatted(userFromForm.getUsername()));
+            mvc.addObject("message", "User, %s, has been created successfully!".formatted(userFromForm.getUsername()));
             mvc.setViewName("usercreationsuccess");
             mvc.setStatus(HttpStatus.OK);
         } catch (UserException e) {
