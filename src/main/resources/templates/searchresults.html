@@ -148,40 +148,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-        <!-- <div class="recipes" style="display: inline;">
-            <ul class="columns">
-               <li class="card" style="width: 18rem;" data-th-each="recipe : ${recipeList}">
-                    <form data-th-action="@{/home/recipe/{recipeId}(recipeId=${recipe.recipeId})}" method="get">
-                        <input class="card-img-top" type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
-                        
-                    </form>
-                    <div class="card-body" data-th-text="${recipe.recipeName}"></div>
-               </li> 
-            </ul>
-        </div> -->
-        
-        <!-- <div class="recipes" style="display: inline;">
-            <ul class="columns">
-               <li data-th-each="recipe : ${recipeList}">
-                    <form action="/search/recipe" method="get">
-                        <input type="image" data-th-src="${recipe.imageLink}" width="200px" alt="">
-                        <input type="hidden" name="recipeId" data-th-value="${recipe.recipeId}">
-                    </form>
-                    <div data-th-text="${recipe.recipeName}"></div>
-               </li> 
-            </ul>
-        </div> -->
-
-
     
         <!-- previous button, no thank you -->
         <!-- <div data-th-if="${previousPageUrl == null}">
